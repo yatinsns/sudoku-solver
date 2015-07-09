@@ -5,7 +5,7 @@
 	ruby sudoku_solver.rb
 
 
-Initial config format
+#### Initial config format:
 
 	x1x2x3x4......x80x81
 	
