@@ -61,10 +61,22 @@ class SodukoSolver
   end
 end
 
+def validate config
+  unless config =~ /^[1-9]{81}$/
+    puts "Error: Wrong input config."
+    exit 1
+  end
+end
+
 def main
-  soduko_solver = SodukoSolver.new("000700390090500000300240800700900200000000000003007008004026007000005060026001000")
+  puts %q{Enter initial config rowwise ("x1x2x3...x81"):}
+  puts %q{Example: 007005008.......010}
+  config = gets.chomp
+  validate(config)
+
+  soduko_solver = SodukoSolver.new(config)
   puts "Solving..."
-  soduko_solver.solve
+  #soduko_solver.solve
 end
 
 main if __FILE__ == $0
