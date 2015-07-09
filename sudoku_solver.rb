@@ -62,7 +62,7 @@ class SodukoSolver
 end
 
 def validate config
-  unless config =~ /^[1-9]{81}$/
+  unless config =~ /^[0-9]{81}$/
     puts "Error: Wrong input config."
     exit 1
   end
