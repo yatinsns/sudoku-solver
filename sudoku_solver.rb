@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'Set'
+
 class SodukoSolver
   def initialize(config)
     @@config = config.split(//)
@@ -20,27 +22,27 @@ class SodukoSolver
   def is_in_relation(i, j)
     is_same_row(i, j) || is_same_column(i, j) || is_same_3x3_box(i, j)
   end
- 
-  def solve
-    hash = Hash.new
 
-    81.times do |index|
-      next if @@config[index].to_i != 0
-
-      81.times do |new_index|
-        hash[@@config[new_index]] = 1 if is_in_relation(index, new_index)
+  def possibilities_for_index(index)
+    possibilities = Set.new
+    81.times do |new_index|
+      if is_in_relation(index, new_index) && @@config[new_index].to_i != 0
+        possibilities << @@config[new_index].to_i
       end
-
-      (1..9).each do |option|
-        next if hash.has_key? option.to_s
-
-        @@config[index] = option.to_s
-        solve
-      end
-      return @@config[index]=0
     end
-
-    show
+    (1..9).to_a - possibilities.to_a
+  end
+ 
+  def solve index
+    if @@config[index].to_i == 0
+      possibilities_for_index(index).each do |option|
+        @@config[index] = option.to_s
+        index == 80 ? show : solve(index + 1)
+      end
+      @@config[index] = 0
+    else
+      index == 80 ? show : solve(index + 1)
+    end
   end
 
   def show
@@ -76,7 +78,7 @@ def main
 
   soduko_solver = SodukoSolver.new(config)
   puts "Solving..."
-  #soduko_solver.solve
+  soduko_solver.solve 0
 end
 
 main if __FILE__ == $0
