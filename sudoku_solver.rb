@@ -76,9 +76,9 @@ def main
   config = gets.chomp
   validate(config)
 
-  soduko_solver = SodukoSolver.new(config)
+  sudoku_solver = SodukoSolver.new(config)
   puts "Solving..."
-  soduko_solver.solve 0
+  sudoku_solver.solve 0
 end
 
 main if __FILE__ == $0
